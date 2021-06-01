@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.agobnese.weatherApp.DAILY_KEY
 import com.agobnese.weatherApp.R
 import com.agobnese.weatherApp.WeatherListAdapter
+import com.agobnese.weatherApp.chooseTheIconOfWeather
 import com.agobnese.weatherApp.model.ForecastContainer
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
@@ -26,7 +27,11 @@ class ForecastFragment : Fragment() {
             ViewModelProvider(requireActivity(), factory).get(ForecastViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_forecast, container, false)
     }
@@ -55,8 +60,8 @@ class ForecastFragment : Fragment() {
 
         forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
-            createWeatherList(it)
-            assignTodaysWeather(it)
+                createWeatherList(it)
+                assignTodaysWeather(it)
             }
         })
     }
@@ -88,7 +93,7 @@ class ForecastFragment : Fragment() {
             .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
         nightDegreeInToday.text = forecastContainer.forecastList[0].minTemp.toInt()
             .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
-//        weathericonInToday.setImageResource(chooseTheIconOfWeather(forecastContainer.forecastList[0].weather.code))
+        weathericonInToday.setImageResource(chooseTheIconOfWeather(forecastContainer.forecastList[0].weather.code))
         weatherDescriptionInToday.text = forecastContainer.forecastList[0].weather.description
     }
 }

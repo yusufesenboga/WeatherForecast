@@ -1,6 +1,5 @@
 package com.agobnese.weatherApp.network
 
-import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,7 +14,6 @@ object RetrofitClient {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             }
-            Log.d("WeatherAp","${field}")
             return field
         }
 

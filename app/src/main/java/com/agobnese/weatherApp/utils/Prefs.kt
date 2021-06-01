@@ -10,9 +10,6 @@ object Prefs {
 
     lateinit var application: Application
 
-//    var unitLetter = "M"
-//    var dayCountValue = 0
-
     private val sharedPref: SharedPreferences
         get() = application.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 

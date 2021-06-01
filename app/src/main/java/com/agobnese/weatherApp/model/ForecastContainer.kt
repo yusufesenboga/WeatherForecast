@@ -1,7 +1,6 @@
 package com.agobnese.weatherApp.model
 
 import android.os.Parcelable
-import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose

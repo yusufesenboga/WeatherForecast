@@ -9,7 +9,6 @@ import com.agobnese.weatherApp.database.WeatherRoomDatabase
 import com.agobnese.weatherApp.model.ForecastContainer
 import com.agobnese.weatherApp.repository.ForecastContainerRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ForecastViewModel(private val forecastContainerRepository: ForecastContainerRepository) :
     ViewModel() {
@@ -24,7 +23,7 @@ class ForecastViewModel(private val forecastContainerRepository: ForecastContain
 
     fun getForecastContainer() {
         viewModelScope.launch {
-        forecastContainerRepository.getForecastContainer()
+            forecastContainerRepository.getForecastContainer()
         }
     }
 }

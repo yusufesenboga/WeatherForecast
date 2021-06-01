@@ -6,10 +6,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ForecastNetworkService {
-    //https://api.weatherbit.io/v2.0/forecast/daily?days=16&postal_code=11235&key=17eb7e05e1a14174850c2c5e6392fcfb
     //https://api.weatherbit.io/v2.0/forecast/daily?days=16&units=M&postal_code=11235&key=17eb7e05e1a14174850c2c5e6392fcfb
 
-    //    ?days=16&postal_code=11235&key=17eb7e05e1a14174850c2c5e6392fcfb
+    //?days=16&postal_code=11235&key=17eb7e05e1a14174850c2c5e6392fcfb
 
     @GET("daily")
     fun getForecast(

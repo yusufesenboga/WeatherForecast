@@ -45,7 +45,6 @@ class WeatherListAdapter(
                     .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
 
             imageOfWeather.setImageResource(chooseTheIconOfWeather(forecastContainer.forecastList[position].weather.code))
-
         }
     }
 
@@ -76,13 +75,11 @@ fun chooseTheIconOfWeather(code: Int): Int {
         520 -> return R.drawable.r04n
         521 -> return R.drawable.r05n
         522 -> return R.drawable.r06d
-        600 -> return R.drawable.s01d
-        601 -> return R.drawable.s02d
+        600, 621 -> return R.drawable.s01d
+        601, 622 -> return R.drawable.s02d
         610 -> return R.drawable.s04d
         611 -> return R.drawable.s05d
         612 -> return R.drawable.s05n
-        621 -> return R.drawable.s01d
-        622 -> return R.drawable.s02d
         623 -> return R.drawable.s06d
         700 -> return R.drawable.a01d
         711 -> return R.drawable.a02n
