@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hava Durumu Tahmini</string>
+    <string name="weatherApp">Hava Durumu</string>
+    <string name="humidity">Nem</string>
+    <string name="pressure">Basınç</string>
+    <string name="wind">Rüzgar</string>
+    <string name="enable_notifications">Bildirimler:</string>
+    <string name="unit_system">Derece ünite</string>
+    <string name="your_location_menu_title">Lokasyonunuz</string>
+    <string name="day_count">Gün sayısı</string>
+    <string name="settings">Ayarlar</string>
+    <string-array name="dropdownMenuArray">
+        <item>7</item>
+        <item>14</item>
+    </string-array>
+</resources>

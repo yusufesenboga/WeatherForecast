@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screen.forecastlist.ForecastFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="56dp"
+        android:id="@+id/todaysWeather"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/screen_shot_2021_03_03_at_11_15_39_pm"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dayNameInToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="35sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Default" />
+
+        <ImageView
+            android:id="@+id/weathericonInToday"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="25dp"
+            android:contentDescription="@string/weather_icon"
+            app:layout_constraintBottom_toTopOf="@id/weatherDescriptionInToday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dayNameInToday"
+            tools:src="@drawable/errorloadingimage" />
+
+        <TextView
+            android:id="@+id/weatherDescriptionInToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/weathericonInToday"
+            app:layout_constraintStart_toStartOf="@id/weathericonInToday"
+            app:layout_constraintTop_toBottomOf="@id/weathericonInToday"
+            tools:text="Weather Desc" />
+
+        <TextView
+            android:id="@+id/dayDegreeInDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@id/guidlineOfTodays"
+            app:layout_constraintEnd_toEndOf="@id/nightDegreeInToday"
+            app:layout_constraintStart_toStartOf="@id/nightDegreeInToday"
+            tools:text="0°C" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidlineOfTodays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.58" />
+
+        <TextView
+            android:id="@+id/currentDegreeInToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="55sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/weathericonInToday"
+            app:layout_constraintEnd_toEndOf="@id/nightDegreeInToday"
+            app:layout_constraintStart_toEndOf="@id/weathericonInToday"
+            app:layout_constraintTop_toTopOf="@id/weathericonInToday"
+            tools:text="0°C" />
+
+        <TextView
+            android:id="@+id/nightDegreeInToday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/grey"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@id/weathericonInToday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/currentDegreeInToday"
+            app:layout_constraintTop_toTopOf="@id/guidlineOfTodays"
+            tools:text="0°C" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#F0F8FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/todaysWeather" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

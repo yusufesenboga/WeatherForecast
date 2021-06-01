@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="56dp"
+    tools:context=".screen.settings.SettingsFragment">
+
+    <CheckBox
+        android:id="@+id/notification_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/notification_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/notification_text"
+        app:layout_constraintTop_toTopOf="@id/notification_text" />
+
+    <TextView
+        android:id="@+id/notification_text"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="26dp"
+        android:text="@string/enable_notifications"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/unit_system_text"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="@string/unit_system"
+        app:layout_constraintStart_toStartOf="@id/notification_text"
+        app:layout_constraintTop_toBottomOf="@id/notification_text" />
+
+    <TextView
+        android:id="@+id/currentUnit"
+        style="@style/SubTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/unit_system_text"
+        app:layout_constraintTop_toBottomOf="@id/unit_system_text"
+        tools:text="type" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="/"
+        android:textColor="@color/grey"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="@id/celcius_unit"
+        app:layout_constraintEnd_toStartOf="@id/fahrenheit_unit"
+        app:layout_constraintStart_toEndOf="@id/celcius_unit"
+        app:layout_constraintTop_toTopOf="@id/celcius_unit" />
+
+    <TextView
+        android:id="@+id/celcius_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/celcius_symbol"
+        android:textSize="35sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@id/unit_system_text"
+        app:layout_constraintStart_toStartOf="@id/guidlineForSettings"
+        app:layout_constraintTop_toTopOf="@id/unit_system_text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidlineForSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.68" />
+
+    <TextView
+        android:id="@+id/fahrenheit_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fahrenheit_symbol"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="@id/unit_system_text"
+        app:layout_constraintStart_toEndOf="@id/notification_checkBox"
+        app:layout_constraintTop_toTopOf="@id/unit_system_text" />
+
+    <TextView
+        android:id="@+id/dayCountText"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/day_count"
+        app:layout_constraintStart_toStartOf="@id/currentUnit"
+        app:layout_constraintTop_toBottomOf="@id/currentUnit" />
+
+    <Spinner
+        android:id="@+id/dropdown_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/dropdownMenuArray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guidlineForSettings"
+        app:layout_constraintTop_toTopOf="@id/dayCountText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

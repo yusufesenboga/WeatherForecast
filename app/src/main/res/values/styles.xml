@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TitleText">
+        <item name="android:textSize">25sp</item>
+
+    </style>
+
+    <style name="SubTitleText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+</resources>
