@@ -50,7 +50,6 @@ class WeatherListAdapter(
     }
 
     override fun getItemCount(): Int {
-//        return weatherResponse.forecastList.size
         if (Prefs.dayCount == 0) {
             return 7
         } else

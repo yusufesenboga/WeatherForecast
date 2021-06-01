@@ -18,22 +18,20 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
 
     val forecastLiveData: LiveData<ForecastContainer> = dao.getForecastContainer()
 
-    private suspend fun insertToDatabase(forecastContainer: ForecastContainer) {
-        //Delete All
-        //Save to DB
-        withContext(Dispatchers.IO) {
-            dao.deleteAll()
-            dao.insert(forecastContainer)
-        }
+    private fun insertToDatabase(forecastContainer: ForecastContainer) {
+        dao.deleteAll()
+        dao.insert(forecastContainer)
     }
 
     suspend fun getForecastContainer() {
+        withContext(Dispatchers.IO) {
 //        if (checkIfInternetIsNeeded()) {
-        val unitLetter = Prefs.unitLetter
-        unitLetter?.let { fetchForecastContainer(it) }
+            val unitLetter = Prefs.unitLetter
+            unitLetter?.let { fetchForecastContainer(it) }
 //        } else {
-        //TODO: Fetch it from the DB
+//        TODO: Fetch it from the DB
 //        }
+        }
     }
 
     private fun checkIfInternetIsNeeded(): Boolean {
@@ -42,40 +40,40 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
     }
 
     //Backend
-    private suspend fun fetchForecastContainer(unitLetter: String) {
+    private fun fetchForecastContainer(unitLetter: String) {
         val client = RetrofitClient.retrofit?.create(ForecastNetworkService::class.java)
-        val forecastCall = client?.getForecast("16", unitLetter, "08536", WEATHER_API_KEY)
+        val forecastCall = client?.getForecast("16", unitLetter, "11235", WEATHER_API_KEY)
 
         try {
-                val response = forecastCall?.execute()
-                val forecastContainer = response?.body()
-                forecastContainer?.let {
-                    insertToDatabase(it)
+            val response = forecastCall?.execute()
+            val forecastContainer = response?.body()
+            forecastContainer?.let {
+                insertToDatabase(it)
             }
 //            TODO: handle error cases when forecastContainer is null
         } catch (e: Exception) {
             Log.d("WeatherApplication", e.toString())
         }
 
-        forecastCall?.enqueue(object : Callback<ForecastContainer> {
-            override fun onResponse(
-                call: Call<ForecastContainer>,
-                response: Response<ForecastContainer>
-            ) {
-                val forecastContainer: ForecastContainer? = response.body()
-
-                forecastContainer?.let {
-                    //Save to DB
-//                    forecastLiveData.value = it
-//                    insertToDatabase(it)
-                }
-//                Prefs.currentTimeInMillis = System.currentTimeMillis()
-            }
-
-            override fun onFailure(call: Call<ForecastContainer>, t: Throwable) {
-                Log.d("WeatherAppp", t.localizedMessage)
-            }
-        })
+//        forecastCall?.enqueue(object : Callback<ForecastContainer> {
+//            override fun onResponse(
+//                call: Call<ForecastContainer>,
+//                response: Response<ForecastContainer>
+//            ) {
+//                val forecastContainer: ForecastContainer? = response.body()
+//
+//                forecastContainer?.let {
+//                    //Save to DB
+////                    forecastLiveData.value = it
+////                    insertToDatabase(it)
+//                }
+////                Prefs.currentTimeInMillis = System.currentTimeMillis()
+//            }
+//
+//            override fun onFailure(call: Call<ForecastContainer>, t: Throwable) {
+//                Log.d("WeatherAppp", t.localizedMessage)
+//            }
+//        })
     }
 
 }

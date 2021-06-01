@@ -24,22 +24,9 @@ class ForecastFragment : Fragment() {
         val factory = ForecastViewModelFactory(requireActivity().application)
         forecastViewModel =
             ViewModelProvider(requireActivity(), factory).get(ForecastViewModel::class.java)
-//        forecastViewModel.unitLetter = Prefs.retrieveDegreeUnitLetter(requireActivity()).toString()
-//        forecastViewModel.dayCountValue = Prefs.retrieveDayCount(requireActivity())
-//        forecastViewModel.currentUnitTextInConst =
-//            if (Prefs.retrieveDegreeUnitLetter(requireActivity()) == "I") {
-//                "F"
-//            } else {
-//                "C"
-//            }
-
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_forecast, container, false)
     }
@@ -57,7 +44,6 @@ class ForecastFragment : Fragment() {
                 findNavController().navigate(direction)
             }
             R.id.mapLocationButton -> {
-
             }
         }
         return super.onOptionsItemSelected(item)
@@ -68,9 +54,10 @@ class ForecastFragment : Fragment() {
         // forecastViewModel object'ini ForecastViewModel'ina baglandi
 
         forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, Observer {
-//            activity?.let { forecastViewModel.dayCountValue = Prefs.retrieveDayCount(it) }
+            it?.let {
             createWeatherList(it)
             assignTodaysWeather(it)
+            }
         })
     }
 

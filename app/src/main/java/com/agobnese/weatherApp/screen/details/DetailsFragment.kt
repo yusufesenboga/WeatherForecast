@@ -42,14 +42,12 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Details"
-//        details_fragment_textview.text = forecast.toString()
         val inFormat = SimpleDateFormat("yyyy-MM-dd")
         val date: Date? = inFormat.parse(forecast?.datetime)
         val outFormat = SimpleDateFormat("EEEE, MMMM d")
@@ -57,7 +55,6 @@ class DetailsFragment : Fragment() {
 
 
         forecast?.let {
-
             dayNameInDetails.text = goal
             dayDegreeInDetails.text = it.highTemp.toInt()
                 .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
