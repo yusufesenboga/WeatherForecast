@@ -1,7 +1,9 @@
 package com.agobnese.weatherApp.screen.forecastlist
 
+import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +18,7 @@ import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
 import kotlinx.android.synthetic.main.fragment_forecast.*
+import java.time.LocalTime
 
 class ForecastFragment : Fragment() {
     lateinit var forecastViewModel: ForecastViewModel
@@ -54,12 +57,19 @@ class ForecastFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // forecastViewModel object'ini ForecastViewModel'ina baglandi
 
         forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
+                if (LocalTime.now().hour > it.forecastList[0].sunsetTs) {
+                    todaysWeather.setBackgroundResource(R.drawable.screen_shot_2021_03_03_at_11_15_39_pm)
+                } else {
+                    todaysWeather.setBackgroundResource(R.drawable.darksky)
+                }
+
                 createWeatherList(it)
                 assignTodaysWeather(it)
             }
