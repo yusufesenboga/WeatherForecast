@@ -29,10 +29,8 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
 
     private fun checkIfInternetIsNeeded(): Boolean {
         return System.currentTimeMillis() >= Prefs.currentTimeInMillis - 1800000
-//        return System.currentTimeMillis() >= Prefs.currentTimeInMillis - 30000
     }
 
-    //Backend
     private fun fetchForecastContainer(unitLetter: String) {
         val client = RetrofitClient.retrofit?.create(ForecastNetworkService::class.java)
         val forecastCall = client?.getForecast("16", unitLetter, "11235", WEATHER_API_KEY)

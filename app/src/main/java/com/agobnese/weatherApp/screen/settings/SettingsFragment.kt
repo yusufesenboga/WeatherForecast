@@ -37,8 +37,6 @@ class SettingsFragment : Fragment() {
         activity?.title = "Settings"
         changeCurrentUnitSystemText()
 
-//        currentUnit.text = Prefs.retrieveDegreeUnitLetter(requireActivity())
-
         notification_checkBox.isChecked = Prefs.notificationSetting
 
         notification_checkBox.setOnClickListener {
@@ -50,8 +48,6 @@ class SettingsFragment : Fragment() {
             activity?.let {
                 Prefs.unitLetter = "I"
                 Prefs.degreeInText = "Fahrenheit"
-//                Prefs.setDegreeUnitLetter(it, "I")
-//                forecastViewModel.unitLetter = Prefs.retrieveDegreeUnitLetter(it).toString()
                 changeCurrentUnitSystemText()
                 makeBold(fahrenheit_unit, celcius_unit)
             }
@@ -61,8 +57,6 @@ class SettingsFragment : Fragment() {
             activity?.let {
                 Prefs.unitLetter = "M"
                 Prefs.degreeInText = "Celcius"
-//                Prefs.setDegreeUnitLetter(it, "M")
-//                forecastViewModel.unitLetter = Prefs.retrieveDegreeUnitLetter(it).toString()
                 changeCurrentUnitSystemText()
                 makeBold(celcius_unit, fahrenheit_unit)
             }
@@ -76,17 +70,10 @@ class SettingsFragment : Fragment() {
                 id: Long
             ) {
                 Prefs.dayCount = position
-//                activity?.let {
-//                    Prefs.setDayCount(it, position)
-//                    forecastViewModel.dayCountValue = Prefs.retrieveDayCount(it)
-//                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Prefs.dayCount = 0
-//                activity?.let {
-//                    forecastViewModel.dayCountValue = Prefs.retrieveDayCount(it)
-//                }
             }
         }
     }
@@ -110,6 +97,5 @@ class SettingsFragment : Fragment() {
             currentUnit = "Celcius"
             makeBold(celcius_unit, fahrenheit_unit)
         }
-//        currentUnit.text = forecastViewModel.currentUnitTextInConst
     }
 }
