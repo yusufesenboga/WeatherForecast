@@ -6,16 +6,13 @@ import android.os.Bundle
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.agobnese.weatherApp.DAILY_KEY
 import com.agobnese.weatherApp.R
 import com.agobnese.weatherApp.WeatherListAdapter
 import com.agobnese.weatherApp.chooseTheIconOfWeather
 import com.agobnese.weatherApp.model.ForecastContainer
-import com.agobnese.weatherApp.screen.details.DetailsFragmentDirections
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
@@ -59,12 +56,13 @@ class ForecastFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, Observer {
+        forecastViewModel.getForecastContainer()
+
+        forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, {
             it?.let {
                 //TODO
                 if (LocalTime.now().hour > it.forecastList[0].sunsetTs) {
@@ -72,16 +70,17 @@ class ForecastFragment : Fragment() {
                 } else {
                     todaysWeather.setBackgroundResource(R.drawable.darksky)
                 }
-
                 createWeatherList(it)
                 assignTodaysWeather(it)
             }
         })
     }
 
+
     fun createWeatherList(forecastContainer: ForecastContainer) {
         val adapter = WeatherListAdapter(forecastContainer) { position ->
-            val direction = ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
+            val direction =
+                ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
             findNavController().navigate(direction)
         }
         recyclerView.layoutManager = LinearLayoutManager(context)

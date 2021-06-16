@@ -22,7 +22,7 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
             withContext(Dispatchers.IO) {
                 dao.deleteAll()
                 dao.insert(forecastContainer)
-        }
+            }
         }
     }
 
