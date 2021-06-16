@@ -1,5 +1,6 @@
 package com.agobnese.weatherApp.screen.forecastlist
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.*
@@ -14,6 +15,7 @@ import com.agobnese.weatherApp.R
 import com.agobnese.weatherApp.WeatherListAdapter
 import com.agobnese.weatherApp.chooseTheIconOfWeather
 import com.agobnese.weatherApp.model.ForecastContainer
+import com.agobnese.weatherApp.screen.details.DetailsFragmentDirections
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
@@ -57,13 +59,14 @@ class ForecastFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // forecastViewModel object'ini ForecastViewModel'ina baglandi
 
         forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, Observer {
             it?.let {
+                //TODO
                 if (LocalTime.now().hour > it.forecastList[0].sunsetTs) {
                     todaysWeather.setBackgroundResource(R.drawable.screen_shot_2021_03_03_at_11_15_39_pm)
                 } else {
@@ -76,25 +79,16 @@ class ForecastFragment : Fragment() {
         })
     }
 
-
     fun createWeatherList(forecastContainer: ForecastContainer) {
         val adapter = WeatherListAdapter(forecastContainer) { position ->
-            val bundle = Bundle()
-            bundle.putParcelable(DAILY_KEY, forecastContainer.forecastList[position])
-//            Navigation.findNavController(recyclerView).na vigate(R.id.action_forecastFragment_to_detailsFragment,bundle)
-            findNavController().navigate(
-                R.id.action_forecastFragment_to_detailsFragment,
-                bundle
-            )
-//            val direction = ForecastFragmentDirections. actionForecastFragmentToDetailsFragment(position)
-//            val direction1= DetailsFragmentDirections
-//            findNavController().navigate(direction)
-            //TODO: convert it to navgraph
+            val direction = ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
+            findNavController().navigate(direction)
         }
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
     }
 
+    @SuppressLint("SetTextI18n")
     fun assignTodaysWeather(forecastContainer: ForecastContainer) {
         dayNameInToday.text = "Today"
         currentDegreeInToday.text = forecastContainer.forecastList[0].temp.toInt()

@@ -9,6 +9,8 @@ import com.agobnese.weatherApp.network.ForecastNetworkService
 import com.agobnese.weatherApp.network.RetrofitClient
 import com.agobnese.weatherApp.utils.Prefs
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ForecastContainerRepository(private val dao: ForecastContainerDao) {
@@ -16,8 +18,12 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
     val forecastLiveData: LiveData<ForecastContainer> = dao.getForecastContainer()
 
     private fun insertToDatabase(forecastContainer: ForecastContainer) {
-        dao.deleteAll()
-        dao.insert(forecastContainer)
+        GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                dao.deleteAll()
+                dao.insert(forecastContainer)
+        }
+        }
     }
 
     suspend fun getForecastContainer() {
@@ -36,12 +42,10 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
         val forecastCall = client?.getForecast("16", unitLetter, "11235", WEATHER_API_KEY)
 
         try {
-            if (checkIfInternetIsNeeded()) {
                 val response = forecastCall?.execute()
                 val forecastContainer = response?.body()
                 forecastContainer?.let {
                     insertToDatabase(it)
-                }
             }
 //            TODO: handle error cases when forecastContainer is null
         } catch (e: Exception) {

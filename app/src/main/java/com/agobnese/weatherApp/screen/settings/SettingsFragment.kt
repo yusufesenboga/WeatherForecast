@@ -2,6 +2,7 @@ package com.agobnese.weatherApp.screen.settings
 
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,23 +45,24 @@ class SettingsFragment : Fragment() {
             notification_checkBox.isChecked = Prefs.notificationSetting
         }
 
-        fahrenheit_unit.setOnClickListener(View.OnClickListener {
+        fahrenheit_unit.setOnClickListener {
             activity?.let {
                 Prefs.unitLetter = "I"
                 Prefs.degreeInText = "Fahrenheit"
                 changeCurrentUnitSystemText()
                 makeBold(fahrenheit_unit, celcius_unit)
-            }
-        })
 
-        celcius_unit.setOnClickListener(View.OnClickListener {
+            }
+        }
+
+        celcius_unit.setOnClickListener {
             activity?.let {
                 Prefs.unitLetter = "M"
                 Prefs.degreeInText = "Celcius"
                 changeCurrentUnitSystemText()
                 makeBold(celcius_unit, fahrenheit_unit)
             }
-        })
+        }
 
         dropdown_menu.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
