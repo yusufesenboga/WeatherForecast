@@ -13,6 +13,7 @@ import com.agobnese.weatherApp.R
 import com.agobnese.weatherApp.WeatherListAdapter
 import com.agobnese.weatherApp.chooseTheIconOfWeather
 import com.agobnese.weatherApp.model.ForecastContainer
+import com.agobnese.weatherApp.utils.NotificationUtil
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
@@ -66,12 +67,15 @@ class ForecastFragment : Fragment() {
             it?.let {
                 //TODO
                 if (LocalTime.now().hour > it.forecastList[0].sunsetTs) {
-                    todaysWeather.setBackgroundResource(R.drawable.screen_shot_2021_03_03_at_11_15_39_pm)
-                } else {
                     todaysWeather.setBackgroundResource(R.drawable.darksky)
+                } else {
+                    todaysWeather.setBackgroundResource(R.drawable.screen_shot_2021_03_03_at_11_15_39_pm)
                 }
                 createWeatherList(it)
                 assignTodaysWeather(it)
+                it.forecastList.firstOrNull()?.let {
+                    NotificationUtil.fireTodayForecastNotification(requireContext(), it)
+                }
             }
         })
     }
