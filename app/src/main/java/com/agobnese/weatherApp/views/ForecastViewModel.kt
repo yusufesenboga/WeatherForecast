@@ -22,6 +22,7 @@ class ForecastViewModel(private val forecastContainerRepository: ForecastContain
     }
 
     fun getForecastContainer() {
+        //start - its loading
         viewModelScope.launch {
             forecastContainerRepository.getForecastContainer()
         }

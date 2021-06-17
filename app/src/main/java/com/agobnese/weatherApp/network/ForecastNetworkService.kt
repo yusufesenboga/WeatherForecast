@@ -13,9 +13,9 @@ interface ForecastNetworkService {
     @GET("daily")
     fun getForecast(
         @Query("days") days: String,
+        @Query("lat") lat: String,
+        @Query("lon") lon: String,
         @Query("units") units: String,
-        @Query("postal_code") postal_code: String,
         @Query("key") key: String
     ): Call<ForecastContainer>
-
 }

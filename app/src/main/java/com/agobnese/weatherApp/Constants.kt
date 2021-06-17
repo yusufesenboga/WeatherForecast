@@ -13,6 +13,8 @@ const val DAY_COUNT_KEY = "day_count_key"
 const val SHARED_PREFERENCES_NAME = "FORECAST_SHARED_PREFERENCES"
 const val CURRENT_DEGREE_IN_TEXT = "current_unit_degree_in_text"
 const val TIMESTAMP_KEY = "time stamp key"
+const val LAST_KNOWN_LOCATION_LATITUDE = "last known location latitude"
+const val LAST_KNOWN_LOCATION_LONGITUDE = "last known location longitude"
 
 //Room - database
 const val WEATHER_ROOM_DATABASE_NAME = "weather_database"

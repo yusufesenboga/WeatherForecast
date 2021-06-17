@@ -32,4 +32,12 @@ object Prefs {
     var currentTimeInMillis: Long
         get() = sharedPref.getLong(TIMESTAMP_KEY, System.currentTimeMillis() - 86400000)
         set(value) = sharedPref.edit().putLong(TIMESTAMP_KEY, value).apply()
+
+    var lastKnownLocationLat: Float
+        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LATITUDE, 40.758896F)
+        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LATITUDE, value).apply()
+
+    var lastKnownLocationLon: Float
+        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LONGITUDE, -73.985130F)
+        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LONGITUDE, value).apply()
 }

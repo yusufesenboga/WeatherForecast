@@ -2,6 +2,9 @@ package com.agobnese.weatherApp.repository
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import com.agobnese.weatherApp.LAST_KNOWN_LOCATION_LATITUDE
+import com.agobnese.weatherApp.LAST_KNOWN_LOCATION_LONGITUDE
 import com.agobnese.weatherApp.WEATHER_API_KEY
 import com.agobnese.weatherApp.database.ForecastContainerDao
 import com.agobnese.weatherApp.model.ForecastContainer
@@ -9,21 +12,16 @@ import com.agobnese.weatherApp.network.ForecastNetworkService
 import com.agobnese.weatherApp.network.RetrofitClient
 import com.agobnese.weatherApp.utils.Prefs
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ForecastContainerRepository(private val dao: ForecastContainerDao) {
 
-    val forecastLiveData: LiveData<ForecastContainer> = dao.getForecastContainer()
+    val forecastLiveData: LiveData<ForecastContainer> = dao.getForecastContainer().asLiveData()
+
 
     private fun insertToDatabase(forecastContainer: ForecastContainer) {
-        GlobalScope.launch {
-            withContext(Dispatchers.IO) {
-                dao.deleteAll()
-                dao.insert(forecastContainer)
-            }
-        }
+        dao.deleteAll()
+        dao.insert(forecastContainer)
     }
 
     suspend fun getForecastContainer() {
@@ -39,13 +37,19 @@ class ForecastContainerRepository(private val dao: ForecastContainerDao) {
 
     private fun fetchForecastContainer(unitLetter: String) {
         val client = RetrofitClient.retrofit?.create(ForecastNetworkService::class.java)
-        val forecastCall = client?.getForecast("16", unitLetter, "11235", WEATHER_API_KEY)
+        val forecastCall = client?.getForecast(
+            "16",
+            LAST_KNOWN_LOCATION_LATITUDE,
+            LAST_KNOWN_LOCATION_LONGITUDE,
+            unitLetter,
+            WEATHER_API_KEY
+        )
 
         try {
-                val response = forecastCall?.execute()
-                val forecastContainer = response?.body()
-                forecastContainer?.let {
-                    insertToDatabase(it)
+            val response = forecastCall?.execute()
+            val forecastContainer = response?.body()
+            forecastContainer?.let {
+                insertToDatabase(it)
             }
 //            TODO: handle error cases when forecastContainer is null
         } catch (e: Exception) {

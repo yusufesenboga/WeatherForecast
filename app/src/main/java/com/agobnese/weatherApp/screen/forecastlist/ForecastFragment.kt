@@ -1,9 +1,11 @@
 package com.agobnese.weatherApp.screen.forecastlist
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +16,7 @@ import com.agobnese.weatherApp.WeatherListAdapter
 import com.agobnese.weatherApp.chooseTheIconOfWeather
 import com.agobnese.weatherApp.model.ForecastContainer
 import com.agobnese.weatherApp.utils.NotificationUtil
+import com.agobnese.weatherApp.utils.PermissionUtil
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
@@ -22,6 +25,21 @@ import java.time.LocalTime
 
 class ForecastFragment : Fragment() {
     lateinit var forecastViewModel: ForecastViewModel
+
+    val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                //Perform Action
+                getForecastDetails()
+            } else {
+                //Show error screen
+            }
+        }
+
+    private fun getForecastDetails() {
+        //TODO: "Get Location Details"
+        forecastViewModel.getForecastContainer()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +96,28 @@ class ForecastFragment : Fragment() {
                 }
             }
         })
+
+        //Ask user permission
+        askForLocationPermission()
     }
 
+    fun askForLocationPermission() {
+        when {
+            PermissionUtil.isLocationPermissionGranted(requireContext()) -> getForecastDetails()
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                //TODO: show educational dialog to user
+            }
+            else -> requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+
+        if (PermissionUtil.isLocationPermissionGranted(requireContext())) {
+            //Perform action
+        } else {
+            requestPermissionLauncher.launch(
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        }
+    }
 
     fun createWeatherList(forecastContainer: ForecastContainer) {
         val adapter = WeatherListAdapter(forecastContainer) { position ->
