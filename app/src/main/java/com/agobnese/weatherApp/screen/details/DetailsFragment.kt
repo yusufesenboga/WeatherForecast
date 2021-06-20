@@ -58,7 +58,8 @@ class DetailsFragment : Fragment() {
                         //TODO: show loading animation
                     }
                     is ForecastContainerResult.Success -> {
-                        forecastContainerResult.forecastContainer.forecastList.getOrNull(position)?.let { forecast ->
+                        forecastContainerResult.forecastContainer.forecastList.getOrNull(position)
+                            ?.let { forecast ->
 
                                 val inFormat = SimpleDateFormat("yyyy-MM-dd")
                                 val date: Date? = inFormat.parse(forecast.datetime)

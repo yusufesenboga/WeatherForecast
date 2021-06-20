@@ -33,6 +33,7 @@ class ForecastFragment : Fragment() {
                 //Show error screen
             }
         }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val factory = ForecastViewModelFactory(requireActivity().application)
@@ -89,8 +90,12 @@ class ForecastFragment : Fragment() {
                         createWeatherList(forecastContainerResult.forecastContainer)
                         assignTodaysWeather(forecastContainerResult.forecastContainer)
 
-                        forecastContainerResult.forecastContainer.forecastList.firstOrNull()?.let { forecast ->
-                            NotificationUtil.fireTodayForecastNotification(requireContext(), forecast)
+                        forecastContainerResult.forecastContainer.forecastList.firstOrNull()
+                            ?.let { forecast ->
+                                NotificationUtil.fireTodayForecastNotification(
+                                    requireContext(),
+                                    forecast
+                                )
                             }
                     }
                 }
@@ -110,8 +115,10 @@ class ForecastFragment : Fragment() {
         super.onResume()
         forecastViewModel.getSavedForecastContainer()
     }
+
     fun askForLocationPermission() {
-        when {PermissionUtil.isLocationPermissionGranted(requireContext()) -> getForecastDetails()
+        when {
+            PermissionUtil.isLocationPermissionGranted(requireContext()) -> getForecastDetails()
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
                 //TODO: show educational dialog to user
                 // 2 options
@@ -127,7 +134,8 @@ class ForecastFragment : Fragment() {
 
     fun createWeatherList(forecastContainer: ForecastContainer) {
         val adapter = WeatherListAdapter(forecastContainer) { position ->
-            val direction = ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
+            val direction =
+                ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
             findNavController().navigate(direction)
         }
         recyclerView.layoutManager = LinearLayoutManager(context)

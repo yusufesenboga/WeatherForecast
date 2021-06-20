@@ -21,7 +21,8 @@ object NotificationUtil {
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
-        val contentShort = "Today the weather will be ${forecast.weather.description}. Max temp will be: ${forecast.maxTemp}"
+        val contentShort =
+            "Today the weather will be ${forecast.weather.description}. Max temp will be: ${forecast.maxTemp}"
         val contentLong = "Good Morning! Today weather is ${forecast.weather.description}" +
                 " expect anywhere from ${forecast.maxTemp} to ${forecast.minTemp} degrees"
 
