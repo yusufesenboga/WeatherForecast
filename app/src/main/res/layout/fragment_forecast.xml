@@ -11,7 +11,7 @@
         android:id="@+id/todaysWeather"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        tools:background="@drawable/screen_shot_2021_03_03_at_11_15_39_pm"
+        android:background="@drawable/screen_shot_2021_03_03_at_11_15_39_pm"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

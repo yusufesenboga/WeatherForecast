@@ -1,13 +1,11 @@
 package com.agobnese.weatherApp.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import com.agobnese.weatherApp.LAST_KNOWN_LOCATION_LATITUDE
-import com.agobnese.weatherApp.LAST_KNOWN_LOCATION_LONGITUDE
+import androidx.lifecycle.MutableLiveData
 import com.agobnese.weatherApp.WEATHER_API_KEY
 import com.agobnese.weatherApp.database.ForecastContainerDao
 import com.agobnese.weatherApp.model.ForecastContainer
+import com.agobnese.weatherApp.model.ForecastContainerResult
 import com.agobnese.weatherApp.network.ForecastNetworkService
 import com.agobnese.weatherApp.network.RetrofitClient
 import com.agobnese.weatherApp.utils.Prefs
@@ -16,45 +14,53 @@ import kotlinx.coroutines.withContext
 
 class ForecastContainerRepository(private val dao: ForecastContainerDao) {
 
-    val forecastLiveData: LiveData<ForecastContainer> = dao.getForecastContainer().asLiveData()
-
+    val forecastContainerResultLiveData = MutableLiveData<ForecastContainerResult>()
 
     private fun insertToDatabase(forecastContainer: ForecastContainer) {
         dao.deleteAll()
         dao.insert(forecastContainer)
     }
 
-    suspend fun getForecastContainer() {
+    suspend fun fetchForecastContainer() {
         withContext(Dispatchers.IO) {
-            val unitLetter = Prefs.unitLetter
-            unitLetter?.let { fetchForecastContainer(it) }
-        }
-    }
+            val unitLetter = Prefs.unitLetter!!
+            val lastKnownLocationLat = Prefs.lastKnownLocationLat.toString()
+            val lastKnownLocationLon = Prefs.lastKnownLocationLon.toString()
 
-    private fun checkIfInternetIsNeeded(): Boolean {
-        return System.currentTimeMillis() >= Prefs.currentTimeInMillis - 1800000
-    }
+            val client = RetrofitClient.retrofit?.create(ForecastNetworkService::class.java)
+            val forecastCall = client?.getForecast(
+                "16",
+                lastKnownLocationLat,
+                lastKnownLocationLon,
+                unitLetter,
+                WEATHER_API_KEY
+            )
 
-    private fun fetchForecastContainer(unitLetter: String) {
-        val client = RetrofitClient.retrofit?.create(ForecastNetworkService::class.java)
-        val forecastCall = client?.getForecast(
-            "16",
-            LAST_KNOWN_LOCATION_LATITUDE,
-            LAST_KNOWN_LOCATION_LONGITUDE,
-            unitLetter,
-            WEATHER_API_KEY
-        )
-
-        try {
-            val response = forecastCall?.execute()
-            val forecastContainer = response?.body()
-            forecastContainer?.let {
-                insertToDatabase(it)
-            }
+            try {
+                val response = forecastCall?.execute()
+                val forecastContainer = response?.body()
+                forecastContainer?.let {
+                    forecastContainerResultLiveData.postValue(ForecastContainerResult.Success(it))
+                    insertToDatabase(it)
+                }
 //            TODO: handle error cases when forecastContainer is null
-        } catch (e: Exception) {
-            Log.d("WeatherApplication", e.toString())
+            } catch (e: Exception) {
+                Log.d("WeatherApplication", e.toString())
+                forecastContainerResultLiveData.postValue(
+                    ForecastContainerResult.Failure(Error(e.message))
+                )
+            }
         }
     }
 
+    suspend fun getSavedForecastContainer() {
+        withContext(Dispatchers.IO) {
+            val forecastContainer = dao.getForecastContainer()
+            forecastContainerResultLiveData.postValue(
+                ForecastContainerResult.Success(
+                    forecastContainer
+                )
+            )
+        }
+    }
 }

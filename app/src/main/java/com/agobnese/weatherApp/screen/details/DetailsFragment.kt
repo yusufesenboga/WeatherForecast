@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.agobnese.weatherApp.R
 import com.agobnese.weatherApp.chooseTheIconOfWeather
-import com.agobnese.weatherApp.model.Forecast
+import com.agobnese.weatherApp.model.ForecastContainerResult
 import com.agobnese.weatherApp.utils.Prefs
 import com.agobnese.weatherApp.views.ForecastViewModel
 import com.agobnese.weatherApp.views.ForecastViewModelFactory
@@ -30,7 +30,8 @@ class DetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         position = args.position
         factory = ForecastViewModelFactory(requireActivity().application)
-        forecastViewModel = ViewModelProvider(requireActivity(), factory).get(ForecastViewModel::class.java)
+        forecastViewModel =
+            ViewModelProvider(requireActivity(), factory).get(ForecastViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -46,22 +47,41 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Details"
 
-        forecastViewModel.forecastLiveData.observe(viewLifecycleOwner, { forecastContainer ->
-            forecastContainer?.forecastList?.getOrNull(position)?.let { forecast ->
+        forecastViewModel.forecastContainerResultLiveData.observe(viewLifecycleOwner, {
+            it?.let { forecastContainerResult ->
 
-                val inFormat = SimpleDateFormat("yyyy-MM-dd")
-                val date: Date? = inFormat.parse(forecast.datetime)
-                val outFormat = SimpleDateFormat("EEEE, MMMM d")
-                val goal: String = outFormat.format(date)
+                when (forecastContainerResult) {
+                    is ForecastContainerResult.Failure -> {
+                        //TODO: Show error dialog (couldn't fetch from internet)
+                    }
+                    ForecastContainerResult.IsLoading -> {
+                        //TODO: show loading animation
+                    }
+                    is ForecastContainerResult.Success -> {
+                        forecastContainerResult.forecastContainer.forecastList.getOrNull(position)?.let { forecast ->
 
-                dayNameInDetails.text = goal
-                dayDegreeInDetails.text = forecast.highTemp.toInt().toString() + "°" + Prefs.degreeInText?.substring(0, 1)
-                nightDegreeInDetails.text = forecast.minTemp.toInt().toString() + "°" + Prefs.degreeInText?.substring(0, 1)
-                weathericonInDetails.setImageResource(chooseTheIconOfWeather(forecast.weather.code))
-                weatherDescriptionInDetails.text = forecast.weather.description
-                humidityAnswer.text = forecast.rh.toString() + " %"
-                pressureAnswer.text = forecast.pres.toInt().toString() + " hPa"
-                windAnswer.text = forecast.windSpd.toInt().toString() + " km/h SE"
+                                val inFormat = SimpleDateFormat("yyyy-MM-dd")
+                                val date: Date? = inFormat.parse(forecast.datetime)
+                                val outFormat = SimpleDateFormat("EEEE, MMMM d")
+                                val goal: String = outFormat.format(date)
+
+                                dayNameInDetails.text = goal
+                                dayDegreeInDetails.text = forecast.highTemp.toInt()
+                                    .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
+                                nightDegreeInDetails.text = forecast.minTemp.toInt()
+                                    .toString() + "°" + Prefs.degreeInText?.substring(0, 1)
+                                weathericonInDetails.setImageResource(
+                                    chooseTheIconOfWeather(
+                                        forecast.weather.code
+                                    )
+                                )
+                                weatherDescriptionInDetails.text = forecast.weather.description
+                                humidityAnswer.text = forecast.rh.toString() + " %"
+                                pressureAnswer.text = forecast.pres.toInt().toString() + " hPa"
+                                windAnswer.text = forecast.windSpd.toInt().toString() + " km/h SE"
+                            }
+                    }
+                }
             }
         })
     }

@@ -34,10 +34,10 @@ object Prefs {
         set(value) = sharedPref.edit().putLong(TIMESTAMP_KEY, value).apply()
 
     var lastKnownLocationLat: Float
-        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LATITUDE, 40.758896F)
-        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LATITUDE, value).apply()
+        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LATITUDE_KEY, 40.758896F)
+        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LATITUDE_KEY, value).apply()
 
     var lastKnownLocationLon: Float
-        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LONGITUDE, -73.985130F)
-        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LONGITUDE, value).apply()
+        get() = sharedPref.getFloat(LAST_KNOWN_LOCATION_LATITUDE_KEY, -73.985130F)
+        set(value) = sharedPref.edit().putFloat(LAST_KNOWN_LOCATION_LATITUDE_KEY, value).apply()
 }
