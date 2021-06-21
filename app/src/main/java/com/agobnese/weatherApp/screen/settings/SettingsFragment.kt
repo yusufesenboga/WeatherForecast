@@ -91,11 +91,11 @@ class SettingsFragment : Fragment() {
 
     fun changeCurrentUnitSystemText() {
         if (Prefs.unitLetter == "I") {
-            currentUnit = "Fahrenheit"
+            currentUnitInSettings.text = "Fahrenheit"
             makeBold(fahrenheit_unit, celcius_unit)
 
         } else {
-            currentUnit = "Celcius"
+            currentUnitInSettings.text = "Celcius"
             makeBold(celcius_unit, fahrenheit_unit)
         }
     }
