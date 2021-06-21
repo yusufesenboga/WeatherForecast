@@ -134,8 +134,7 @@ class ForecastFragment : Fragment() {
 
     fun createWeatherList(forecastContainer: ForecastContainer) {
         val adapter = WeatherListAdapter(forecastContainer) { position ->
-            val direction =
-                ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
+            val direction = ForecastFragmentDirections.actionForecastFragmentToDetailsFragment(position)
             findNavController().navigate(direction)
         }
         recyclerView.layoutManager = LinearLayoutManager(context)

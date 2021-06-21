@@ -10,15 +10,12 @@ import kotlinx.android.synthetic.main.single_item_view.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class WeatherListAdapter(
-    private val forecastContainer: ForecastContainer,
-    val onClick: (position: Int) -> Unit
+class WeatherListAdapter(private val forecastContainer: ForecastContainer, val onClick: (position: Int) -> Unit
 ) : RecyclerView.Adapter<WeatherListAdapter.WeatherViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherViewHolder {
-        val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.single_item_view, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.single_item_view, parent, false)
         return WeatherViewHolder(view)
     }
 
