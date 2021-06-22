@@ -1,10 +1,8 @@
 package com.agobnese.weatherApp.views
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.agobnese.weatherApp.database.WeatherRoomDatabase
 import com.agobnese.weatherApp.model.ForecastContainerResult
 import com.agobnese.weatherApp.repository.ForecastContainerRepository
@@ -13,11 +11,12 @@ import kotlinx.coroutines.launch
 class ForecastViewModel(private val forecastContainerRepository: ForecastContainerRepository) :
     ViewModel() {
 
-    private val _forecastLiveData = forecastContainerRepository.forecastContainerResultLiveData
-    val forecastContainerResultLiveData: MutableLiveData<ForecastContainerResult>
-        get() = _forecastLiveData
+    private val _forecastContainerResultLiveData = forecastContainerRepository.forecastContainerResultLiveData
+    val forecastContainerResultLiveData: LiveData<ForecastContainerResult>
+        get() = _forecastContainerResultLiveData
 
     init {
+        Log.d("ApplicationTag","init")
         fetchForecastContainer()
     }
 
@@ -28,7 +27,7 @@ class ForecastViewModel(private val forecastContainerRepository: ForecastContain
     }
 
     fun fetchForecastContainer() {
-        _forecastLiveData.value = ForecastContainerResult.IsLoading
+        _forecastContainerResultLiveData.value = ForecastContainerResult.IsLoading
         viewModelScope.launch {
             forecastContainerRepository.fetchForecastContainer()
         }

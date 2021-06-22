@@ -3,6 +3,7 @@ package com.agobnese.weatherApp.screen.forecastlist
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -39,8 +40,9 @@ class ForecastFragment : Fragment() {
         val factory = ForecastViewModelFactory(requireActivity().application)
         forecastViewModel =
             ViewModelProvider(requireActivity(), factory).get(ForecastViewModel::class.java)
-//        forecastViewModel.getSavedForecastContainer()
-        forecastViewModel.fetchForecastContainer()
+        forecastViewModel.getSavedForecastContainer()
+//        forecastViewModel.fetchForecastContainer()
+
     }
 
     override fun onCreateView(
@@ -73,8 +75,6 @@ class ForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        forecastViewModel.fetchForecastContainer()
-
         forecastViewModel.forecastContainerResultLiveData.observe(viewLifecycleOwner, {
             it?.let { forecastContainerResult ->
 
@@ -87,23 +87,18 @@ class ForecastFragment : Fragment() {
                     }
                     is ForecastContainerResult.Success -> {
 
+                        Log.d("ApplicationTag", "before the create the weather list")
                         createWeatherList(forecastContainerResult.forecastContainer)
                         assignTodaysWeather(forecastContainerResult.forecastContainer)
+                        Log.d("ApplicationTag", "after the create the weather list")
 
-                        forecastContainerResult.forecastContainer.forecastList.firstOrNull()
-                            ?.let { forecast ->
-                                NotificationUtil.fireTodayForecastNotification(
-                                    requireContext(),
-                                    forecast
-                                )
-                            }
                     }
                 }
             }
         })
 
         //Ask user permission
-        askForLocationPermission()
+//        askForLocationPermission()
     }
 
     private fun getForecastDetails() {
@@ -113,7 +108,7 @@ class ForecastFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        forecastViewModel.getSavedForecastContainer()
+//        forecastViewModel.fetchForecastContainer()
     }
 
     fun askForLocationPermission() {

@@ -16,6 +16,8 @@
     <string name="today_notification_title">Today\'s Weather</string>
     <string name="today_notification_channel_name">Today\'s Forecast</string>
     <string name="today_notification_channel_description">This notification will show today\'s forecast details</string>
+    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celcius">Celcius</string>
     <string-array name="dropdownMenuArray">
         <item>7</item>
         <item>14</item>

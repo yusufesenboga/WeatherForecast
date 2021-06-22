@@ -91,5 +91,4 @@ fun chooseTheIconOfWeather(code: Int): Int {
         900 -> return R.drawable.u00d
     }
     return R.drawable.errorloadingimage
-
 }
